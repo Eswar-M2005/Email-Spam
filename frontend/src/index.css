@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  body {
+    @apply bg-cyber-900 text-gray-100 font-sans;
+    background: radial-gradient(ellipse at top left, #0d1a2e 0%, #070b14 60%);
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar          { width: 6px; }
+  ::-webkit-scrollbar-track    { background: #0d1526; }
+  ::-webkit-scrollbar-thumb    { background: #1e3355; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #00d4ff40; }
+}
+
+@layer components {
+  /* Glass card */
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .glass-hover {
+    @apply glass transition-all duration-300
+           hover:bg-white/10 hover:border-white/20 hover:shadow-lg;
+  }
+
+  /* Neon glow variants */
+  .glow-blue   { box-shadow: 0 0 20px #00d4ff30, 0 0 40px #00d4ff10; }
+  .glow-green  { box-shadow: 0 0 20px #00ff8830, 0 0 40px #00ff8810; }
+  .glow-red    { box-shadow: 0 0 20px #ff475730, 0 0 40px #ff475710; }
+  .glow-purple { box-shadow: 0 0 20px #b44fff30, 0 0 40px #b44fff10; }
+
+  /* Neon text */
+  .text-neon-blue   { color: #00d4ff; text-shadow: 0 0 20px #00d4ff60; }
+  .text-neon-green  { color: #00ff88; text-shadow: 0 0 20px #00ff8860; }
+  .text-neon-red    { color: #ff4757; text-shadow: 0 0 20px #ff475760; }
+  .text-neon-purple { color: #b44fff; text-shadow: 0 0 20px #b44fff60; }
+
+  /* Gradient buttons */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold text-sm
+           bg-gradient-to-r from-cyan-500 to-blue-600
+           hover:from-cyan-400 hover:to-blue-500
+           transition-all duration-200
+           shadow-lg shadow-cyan-500/20
+           active:scale-95;
+  }
+
+  .btn-danger {
+    @apply px-6 py-3 rounded-xl font-semibold text-sm
+           bg-gradient-to-r from-red-500 to-rose-600
+           hover:from-red-400 hover:to-rose-500
+           transition-all duration-200
+           shadow-lg shadow-red-500/20
+           active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply px-6 py-3 rounded-xl font-semibold text-sm
+           border border-white/10 text-gray-300
+           hover:bg-white/5 hover:border-white/20 hover:text-white
+           transition-all duration-200;
+  }
+
+  /* Threat level badges */
+  .badge-critical { @apply bg-red-500/20    text-red-400    border border-red-500/40    px-2.5 py-0.5 rounded-full text-xs font-semibold; }
+  .badge-high     { @apply bg-orange-500/20 text-orange-400 border border-orange-500/40 px-2.5 py-0.5 rounded-full text-xs font-semibold; }
+  .badge-medium   { @apply bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 px-2.5 py-0.5 rounded-full text-xs font-semibold; }
+  .badge-low      { @apply bg-blue-500/20   text-blue-400   border border-blue-500/40   px-2.5 py-0.5 rounded-full text-xs font-semibold; }
+  .badge-safe     { @apply bg-green-500/20  text-green-400  border border-green-500/40  px-2.5 py-0.5 rounded-full text-xs font-semibold; }
+
+  /* Sidebar nav items */
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400
+           hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer;
+  }
+
+  .nav-item.active {
+    @apply bg-cyan-500/10 text-cyan-400 border border-cyan-500/20;
+  }
+
+  /* Input fields */
+  .input-cyber {
+    @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3
+           text-gray-100 placeholder-gray-500 text-sm
+           focus:outline-none focus:border-cyan-500/50 focus:bg-white/10
+           transition-all duration-200;
+  }
+
+  /* Animated ring for live indicator */
+  .live-ring {
+    @apply w-2.5 h-2.5 rounded-full bg-green-400 relative;
+  }
+  .live-ring::after {
+    content: '';
+    @apply absolute inset-0 rounded-full bg-green-400 animate-ping opacity-75;
+  }
+
+  /* Section divider */
+  .divider { @apply border-t border-white/5 my-4; }
+}
+
+/* Custom recharts tooltip */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: rgba(13, 21, 38, 0.95) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(12px) !important;
+}
