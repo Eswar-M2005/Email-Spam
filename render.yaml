@@ -1,4 +1,5 @@
 services:
+  # ── Backend (Flask + ML) ────────────────────────────────────────────────────
   - type: web
     name: mailguard-ai-backend
     runtime: python
@@ -12,3 +13,32 @@ services:
         value: 10000
       - key: PYTHON_VERSION
         value: 3.12.0
+      - key: CORS_ORIGINS
+        value: https://mailguard-ai-frontend.onrender.com
+
+  # ── Frontend (React/Vite Static Site) ──────────────────────────────────────
+  - type: web
+    name: mailguard-ai-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_FIREBASE_API_KEY
+        value: AIzaSyBz86y3lNijo2g7oN5ZOYnRgFtYZNAvwF0
+      - key: VITE_FIREBASE_AUTH_DOMAIN
+        value: emailspam-ba5ba.firebaseapp.com
+      - key: VITE_FIREBASE_PROJECT_ID
+        value: emailspam-ba5ba
+      - key: VITE_FIREBASE_STORAGE_BUCKET
+        value: emailspam-ba5ba.firebasestorage.app
+      - key: VITE_FIREBASE_MESSAGING_SENDER_ID
+        value: "160173009920"
+      - key: VITE_FIREBASE_APP_ID
+        value: "1:160173009920:web:dff2802225a0c0a3d5fce5"
+      - key: VITE_API_URL
+        value: https://email-spam3.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
