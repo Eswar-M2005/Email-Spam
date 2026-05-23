@@ -105,12 +105,29 @@ def score_threat(text, sender, subject, spam_prob, has_att=False):
 # ── Flask ────────────────────────────────────────────────────────────────────
 app = Flask(__name__)
 
-# Allow localhost in dev and any Vercel deployment in production
-_CORS_ORIGINS = os.environ.get(
-    "CORS_ORIGINS",
-    "http://localhost:5173,http://localhost:3000"
-)
-CORS(app, origins=[o.strip() for o in _CORS_ORIGINS.split(",")])
+
+# Allow localhost in dev; all *.onrender.com and *.netlify.app in production
+_CORS_ORIGINS_ENV = os.environ.get("CORS_ORIGINS", "")
+_EXPLICIT_ORIGINS = [o.strip() for o in _CORS_ORIGINS_ENV.split(",") if o.strip()]
+
+import re as _re
+
+def _cors_origin_check(origin):
+    if not origin:
+        return False
+    if origin in _explicit_origins:
+        return True
+    # Allow any Render or Netlify subdomain automatically
+    if _re.match(r'https://[a-z0-9\-]+\.onrender\.com$', origin):
+        return True
+    if _re.match(r'https://[a-z0-9\-]+\.netlify\.app$', origin):
+        return True
+    if origin in ('http://localhost:5173', 'http://localhost:3000'):
+        return True
+    return False
+
+_explicit_origins = _EXPLICIT_ORIGINS
+CORS(app, origins=_cors_origin_check, supports_credentials=True)
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "model", "spam_classifier.pkl")
 pipeline = joblib.load(MODEL_PATH)
