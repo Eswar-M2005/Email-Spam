@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mailguard-ai-backend
+    runtime: python
+    rootDir: .
+    buildCommand: >
+      pip install -r requirements_render.txt &&
+      python -c "import ssl; ssl._create_default_https_context=ssl._create_unverified_context; import nltk; nltk.download('stopwords',quiet=True); nltk.download('wordnet',quiet=True); nltk.download('omw-1.4',quiet=True)"
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: 3.12.0

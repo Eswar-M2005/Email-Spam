@@ -104,7 +104,13 @@ def score_threat(text, sender, subject, spam_prob, has_att=False):
 
 # ── Flask ────────────────────────────────────────────────────────────────────
 app = Flask(__name__)
-CORS(app, origins="*")
+
+# Allow localhost in dev and any Vercel deployment in production
+_CORS_ORIGINS = os.environ.get(
+    "CORS_ORIGINS",
+    "http://localhost:5173,http://localhost:3000"
+)
+CORS(app, origins=[o.strip() for o in _CORS_ORIGINS.split(",")])
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "model", "spam_classifier.pkl")
 pipeline = joblib.load(MODEL_PATH)
